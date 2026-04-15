@@ -25,7 +25,10 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+    <section id="contact" className="py-24 bg-slate-900 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -34,22 +37,23 @@ function Contact() {
           viewport={viewportOptions}
           variants={fadeInUp}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Hablemos de tu proyecto
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
+            Hablemos de tu <span className="text-gradient">proyecto</span>
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
             Estamos listos para convertir tu idea en realidad
           </p>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInLeft}
+            className="glass-card p-10 rounded-3xl h-full flex flex-col justify-center"
           >
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+            <h3 className="text-2xl font-bold text-white mb-8">
               Información de contacto
             </h3>
             <motion.div
@@ -59,43 +63,40 @@ function Contact() {
               whileInView="visible"
               viewport={viewportOptions}
             >
-              <motion.div className="flex items-start" variants={fadeInUp}>
+              <motion.div className="flex items-center group/contact" variants={fadeInUp}>
                 <motion.div
-                  className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-12 h-12 bg-slate-800/80 border border-slate-700 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 group-hover/contact:border-blue-500/50 transition-colors"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <Mail className="w-5 h-5 text-blue-400 group-hover/contact:text-blue-300" />
                 </motion.div>
                 <div>
-                  <p className="font-semibold text-slate-900 dark:text-white">Email</p>
-                  <p className="text-slate-600 dark:text-slate-300">contacto@tuempresa.com</p>
+                  <p className="font-semibold text-slate-400 text-sm mb-1">Email</p>
+                  <p className="text-white font-medium">contacto@etlc-systems.com</p>
                 </div>
               </motion.div>
-              <motion.div className="flex items-start" variants={fadeInUp}>
+              <motion.div className="flex items-center group/contact" variants={fadeInUp}>
                 <motion.div
-                  className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-12 h-12 bg-slate-800/80 border border-slate-700 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 group-hover/contact:border-blue-500/50 transition-colors"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <Phone className="w-5 h-5 text-blue-400 group-hover/contact:text-blue-300" />
                 </motion.div>
                 <div>
-                  <p className="font-semibold text-slate-900 dark:text-white">Teléfono</p>
-                  <p className="text-slate-600 dark:text-slate-300">+1 (555) 123-4567</p>
+                  <p className="font-semibold text-slate-400 text-sm mb-1">Teléfono</p>
+                  <p className="text-white font-medium">+1 (555) 123-4567</p>
                 </div>
               </motion.div>
-              <motion.div className="flex items-start" variants={fadeInUp}>
+              <motion.div className="flex items-center group/contact" variants={fadeInUp}>
                 <motion.div
-                  className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-12 h-12 bg-slate-800/80 border border-slate-700 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 group-hover/contact:border-blue-500/50 transition-colors"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <MapPin className="w-5 h-5 text-blue-400 group-hover/contact:text-blue-300" />
                 </motion.div>
                 <div>
-                  <p className="font-semibold text-slate-900 dark:text-white">Ubicación</p>
-                  <p className="text-slate-600 dark:text-slate-300">Ciudad, País</p>
+                  <p className="font-semibold text-slate-400 text-sm mb-1">Ubicación</p>
+                  <p className="text-white font-medium">Ciudad, País</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -103,14 +104,14 @@ function Contact() {
 
           <motion.form
             onSubmit={handleSubmit}
-            className="space-y-4"
+            className="glass-card p-10 rounded-3xl space-y-6"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInRight}
           >
             <div>
-              <label htmlFor="name" className="block text-slate-900 dark:text-white font-semibold mb-2">
+              <label htmlFor="name" className="block text-slate-300 font-semibold mb-2 ml-1">
                 Nombre
               </label>
               <input
@@ -120,11 +121,12 @@ function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white dark:bg-slate-800 dark:text-white"
+                className="w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition-all outline-none"
+                placeholder="Tu nombre completo"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-slate-900 dark:text-white font-semibold mb-2">
+              <label htmlFor="email" className="block text-slate-300 font-semibold mb-2 ml-1">
                 Email
               </label>
               <input
@@ -134,11 +136,12 @@ function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white dark:bg-slate-800 dark:text-white"
+                className="w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition-all outline-none"
+                placeholder="tu@email.com"
               />
             </div>
             <div>
-              <label htmlFor="message" className="block text-slate-900 dark:text-white font-semibold mb-2">
+              <label htmlFor="message" className="block text-slate-300 font-semibold mb-2 ml-1">
                 Mensaje
               </label>
               <textarea
@@ -148,16 +151,18 @@ function Contact() {
                 onChange={handleChange}
                 required
                 rows="4"
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white dark:bg-slate-800 dark:text-white"
+                className="w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition-all outline-none resize-none"
+                placeholder="Cuéntanos sobre tu proyecto..."
               ></textarea>
             </div>
             <motion.button
               type="submit"
-              className="w-full bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg"
-              whileHover={{ scale: 1.02, y: -2 }}
+              className="w-full relative overflow-hidden group bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]"
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Enviar mensaje
+              <span className="relative z-10 flex items-center justify-center">Enviar mensaje</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </motion.button>
           </motion.form>
         </div>

@@ -1,4 +1,5 @@
 import { Linkedin, Twitter, Facebook, Instagram } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 function Footer() {
   return (
@@ -6,7 +7,9 @@ function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Tu Empresa</h3>
+            <div className="inline-block mb-4">
+              <img src={logo} alt="ETLC Systems" className="h-14 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+            </div>
             <p className="text-slate-400">
               Soluciones de software innovadoras para empresas que piensan en grande.
             </p>
@@ -52,7 +55,7 @@ function Footer() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 text-center text-slate-400">
-          <p>&copy; 2025 Tu Empresa. Todos los derechos reservados.</p>
+          <p>&copy; 2026 ETLC Systems. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

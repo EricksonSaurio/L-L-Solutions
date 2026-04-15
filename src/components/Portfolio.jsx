@@ -1,4 +1,4 @@
-import { ArrowUpRight, Code, Smartphone, Database, Building2 } from 'lucide-react';
+import { ExternalLink, Code2, Smartphone, Database, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, viewportOptions } from '../utils/animations';
 
@@ -9,7 +9,7 @@ function Portfolio() {
       description: "Plataforma completa de comercio electrónico con pasarela de pagos integrada y sistema de gestión de inventario en tiempo real.",
       category: "Web Development",
       technologies: ["React", "Node.js", "PostgreSQL"],
-      icon: Code,
+      icon: Code2,
       accentColor: "blue"
     },
     {
@@ -78,8 +78,11 @@ function Portfolio() {
   };
 
   return (
-    <section id="portfolio" className="py-20 bg-white dark:bg-slate-950 overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section id="portfolio" className="py-24 bg-slate-950 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-16"
           initial="hidden"
@@ -87,11 +90,11 @@ function Portfolio() {
           viewport={viewportOptions}
           variants={fadeInUp}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Proyectos Destacados
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
+            Nuestros <span className="text-gradient">Proyectos</span>
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Casos de éxito que demuestran nuestra experiencia y calidad
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+            Innovación tecnológica aplicada a casos de uso reales
           </p>
         </motion.div>
 
@@ -110,13 +113,16 @@ function Portfolio() {
             return (
               <motion.div
                 key={index}
-                className={`group relative bg-white dark:bg-slate-900 border-2 ${colors.border} ${colors.hover} rounded-xl p-8 transition-all duration-300 hover:shadow-2xl`}
+                className="group relative glass-card rounded-2xl p-8 overflow-hidden"
                 variants={isEven ? fadeInLeft : fadeInRight}
-                whileHover={{ y: -15, scale: 1.02 }}
-                transition={{ duration: 0.3 }}
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                {/* Icon and Category Badge */}
-                <div className="flex items-start justify-between mb-6">
+                {/* Hover Glow Effect */}
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-${project.accentColor}-500/10 to-transparent pointer-events-none`}></div>
+
+                {/* Header: Icon and Category */}
+                <div className="flex items-start justify-between mb-8 relative z-10">
                   <motion.div
                     className={`w-14 h-14 ${colors.iconBg} rounded-xl flex items-center justify-center`}
                     whileHover={{ rotate: 360, scale: 1.1 }}
@@ -135,19 +141,19 @@ function Portfolio() {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                <p className="text-slate-400 mb-8 leading-relaxed">
                   {project.description}
                 </p>
 
                 {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-8 relative z-10">
                   {project.technologies.map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className={`px-3 py-1 rounded-md text-xs font-medium border ${colors.tech}`}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/80 text-slate-300 border border-slate-700/50 group-hover:border-blue-500/30 transition-colors"
                     >
                       {tech}
                     </span>
@@ -155,19 +161,16 @@ function Portfolio() {
                 </div>
 
                 {/* CTA */}
-                <motion.button
-                  className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold"
-                  whileHover={{ gap: 12, x: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  Ver proyecto
-                  <motion.div
-                    whileHover={{ x: 3, y: -3 }}
-                    transition={{ duration: 0.3 }}
+                <div className="relative z-10 flex items-center mt-auto">
+                  <motion.button
+                    className="flex items-center gap-2 text-blue-400 font-bold group/btn"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <ArrowUpRight className="w-4 h-4" />
-                  </motion.div>
-                </motion.button>
+                    Ver detalles
+                    <ExternalLink className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
+                  </motion.button>
+                </div>
 
                 {/* Decorative Element */}
                 <motion.div

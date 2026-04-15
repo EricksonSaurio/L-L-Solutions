@@ -8,13 +8,11 @@ import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollProgress from './components/ScrollProgress'
-import CustomCursor from './components/CustomCursor'
 
 function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
       <ScrollProgress />
-      <CustomCursor />
       <Navbar />
       <Hero />
       <Stats />

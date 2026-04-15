@@ -5,23 +5,20 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-  }
-
-  /* Hide default cursor on desktop for custom cursor */
-  @media (min-width: 768px) {
-    * {
-      cursor: none !important;
-    }
-  }
-
-  /* Smooth scroll for all sections */
-  html {
     scroll-padding-top: 80px;
+  }
+
+  body {
+    @apply font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
   }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -34,5 +31,19 @@
 
   ::-webkit-scrollbar-thumb:hover {
     @apply from-blue-700 to-purple-700;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-lg border border-white/20 dark:border-slate-700/50 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+  }
+  
+  .glass-card {
+    @apply bg-white/80 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400;
   }
 }
