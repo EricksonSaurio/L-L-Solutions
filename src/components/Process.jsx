@@ -1,159 +1,219 @@
-import { MessageSquare, Lightbulb, Code, Rocket } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { fadeInUp, scaleIn, slowStagger, viewportOptions } from '../utils/animations';
+import { Headphones, PenLine, Hammer, Rocket } from 'lucide-react';
+import { fadeInUp, staggerContainer, viewportOptions } from '../utils/animations';
+
+/* ─── Step animations ──────────────────────────────── */
+
+// Headphones with pulsing sound rings
+function ListenAnim() {
+  return (
+    <div className="relative w-28 h-28 flex items-center justify-center mb-6">
+      {/* Sound rings */}
+      {[0, 1, 2].map(i => (
+        <motion.div
+          key={i}
+          className="absolute inset-0 rounded-full border-2 border-emerald-500/30 dark:border-emerald-400/20"
+          initial={{ scale: 0.4, opacity: 0 }}
+          animate={{ scale: [0.4, 0.7 + i * 0.15], opacity: [0.7, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.6, ease: 'easeOut' }}
+        />
+      ))}
+      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 dark:from-emerald-400/15 dark:to-emerald-400/5 flex items-center justify-center backdrop-blur-sm border border-emerald-500/20 dark:border-emerald-400/15">
+        <motion.div
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <Headphones className="w-8 h-8 text-emerald-600 dark:text-emerald-400" strokeWidth={1.5} />
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+// Pencil drawing on a notepad
+function DesignAnim() {
+  return (
+    <div className="relative w-28 h-28 flex items-center justify-center mb-6">
+      {/* Notepad background */}
+      <div className="absolute w-[52px] h-[58px] rounded-lg bg-cyan-500/8 dark:bg-cyan-400/8 border border-cyan-500/15 dark:border-cyan-400/12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {/* Notepad lines */}
+        {[0, 1, 2, 3].map(i => (
+          <motion.div
+            key={i}
+            className="absolute left-2 right-2 h-px bg-cyan-500/15 dark:bg-cyan-400/10"
+            style={{ top: 14 + i * 10 }}
+            initial={{ scaleX: 0, originX: 0 }}
+            animate={{ scaleX: [0, 1] }}
+            transition={{ duration: 0.6, delay: 1 + i * 0.2, repeat: Infinity, repeatDelay: 3 }}
+          />
+        ))}
+      </div>
+      {/* Pencil moving across notepad */}
+      <motion.div
+        className="relative z-10"
+        animate={{
+          x: [-10, 10, -6, 8, -10],
+          y: [-8, -2, 4, 10, -8],
+          rotate: [15, 15, 15, 15, 15],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-cyan-500/5 dark:from-cyan-400/15 dark:to-cyan-400/5 flex items-center justify-center backdrop-blur-sm border border-cyan-500/20 dark:border-cyan-400/15">
+          <PenLine className="w-6 h-6 text-cyan-600 dark:text-cyan-400" strokeWidth={1.5} />
+        </div>
+      </motion.div>
+      {/* Ink dot trail */}
+      <motion.div
+        className="absolute w-1 h-1 rounded-full bg-cyan-400/50"
+        animate={{
+          x: [-10, 10, -6, 8],
+          y: [-4, 2, 8, 14],
+          opacity: [0, 0.6, 0.3, 0],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
+  );
+}
+
+// Hammer slamming down
+function BuildAnim() {
+  return (
+    <div className="relative w-28 h-28 flex items-center justify-center mb-6">
+      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/15 to-blue-500/5 dark:from-blue-400/15 dark:to-blue-400/5 flex items-center justify-center backdrop-blur-sm border border-blue-500/20 dark:border-blue-400/15 relative">
+        <motion.div
+          style={{ originX: 0.3, originY: 0.8 }}
+          animate={{ rotate: [0, -25, 0, -25, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1, ease: [0.36, 0, 0.66, -0.56] }}
+        >
+          <Hammer className="w-8 h-8 text-blue-600 dark:text-blue-400" strokeWidth={1.5} />
+        </motion.div>
+      </div>
+      {/* Impact flash */}
+      <motion.div
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-blue-400/40 dark:bg-blue-400/30 blur-sm"
+        animate={{ opacity: [0, 0.8, 0], scaleX: [0.5, 1.5, 0.5] }}
+        transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1, ease: 'easeOut' }}
+      />
+    </div>
+  );
+}
+
+// Rocket launching upward
+function LaunchAnim() {
+  return (
+    <div className="relative w-28 h-28 flex items-center justify-center mb-6 overflow-hidden">
+      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/15 to-purple-500/5 dark:from-purple-400/15 dark:to-purple-400/5 flex items-center justify-center backdrop-blur-sm border border-purple-500/20 dark:border-purple-400/15 relative">
+        <motion.div
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <Rocket className="w-8 h-8 text-purple-600 dark:text-purple-400" strokeWidth={1.5} />
+        </motion.div>
+      </div>
+      {/* Exhaust particles */}
+      {[0, 1, 2].map(i => (
+        <motion.div
+          key={i}
+          className="absolute w-1.5 h-1.5 rounded-full bg-purple-400/60 dark:bg-purple-400/40"
+          style={{ left: `calc(50% + ${(i - 1) * 6}px)` }}
+          animate={{
+            y: [6, 30],
+            opacity: [0.8, 0],
+            scale: [1, 0.3],
+          }}
+          transition={{
+            duration: 0.9,
+            repeat: Infinity,
+            delay: i * 0.2,
+            ease: 'easeIn',
+          }}
+        />
+      ))}
+      {/* Glow under rocket */}
+      <motion.div
+        className="absolute bottom-2 w-6 h-6 rounded-full bg-purple-500/20 dark:bg-purple-400/15 blur-md"
+        animate={{ opacity: [0.3, 0.7, 0.3], scale: [0.8, 1.2, 0.8] }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
+  );
+}
+
+/* ─── Steps data ───────────────────────────────────── */
+const steps = [
+  { Anim: ListenAnim, title: "Escuchamos", description: "Entendemos tu negocio, tus usuarios y el problema real que necesitas resolver. Sin esto, el código no sirve." },
+  { Anim: DesignAnim, title: "Diseñamos", description: "Arquitectura, flujos, prototipos. Planificamos todo antes de escribir la primera línea de código." },
+  { Anim: BuildAnim, title: "Construimos", description: "Desarrollo iterativo con entregas frecuentes. Ves avances reales cada semana, no al final." },
+  { Anim: LaunchAnim, title: "Lanzamos", description: "Deploy, monitoreo, optimización. Y seguimos aquí después del lanzamiento para lo que necesites." },
+];
 
 function Process() {
-  const steps = [
-    {
-      icon: MessageSquare,
-      title: "Consulta inicial",
-      description: "Escuchamos tus ideas y necesidades para entender tu visión y objetivos del proyecto.",
-      number: "01"
-    },
-    {
-      icon: Lightbulb,
-      title: "Planificación",
-      description: "Diseñamos la arquitectura y creamos un plan detallado con cronogramas y entregables.",
-      number: "02"
-    },
-    {
-      icon: Code,
-      title: "Desarrollo",
-      description: "Codificamos tu solución usando las mejores prácticas y tecnologías modernas.",
-      number: "03"
-    },
-    {
-      icon: Rocket,
-      title: "Lanzamiento",
-      description: "Desplegamos tu proyecto y brindamos soporte continuo para asegurar el éxito.",
-      number: "04"
-    }
-  ];
-
   return (
-    <section id="process" className="py-24 bg-slate-950 relative overflow-hidden">
-      {/* Dynamic Background */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="container mx-auto px-4">
+    <section id="process" className="py-24 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+      <div className="container mx-auto px-6 lg:px-8">
         <motion.div
-          className="text-center mb-16"
+          className="mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
           variants={fadeInUp}
         >
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
-            Nuestro <span className="text-gradient">Proceso</span>
+          <span className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-emerald-600 dark:text-emerald-400 mb-4">
+            <span className="w-8 h-px bg-emerald-600 dark:bg-emerald-400" />
+            Proceso
+          </span>
+          <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Cómo trabajamos
           </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            Metodología probada para garantizar resultados excepcionales
-          </p>
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
-          variants={slowStagger}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 max-w-6xl mx-auto"
+          variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
         >
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            const isLast = index === steps.length - 1;
-
-            return (
-              <motion.div
-                key={index}
-                className="relative"
-                variants={scaleIn}
-              >
-                {/* Connecting Line (Desktop) */}
-                {!isLast && (
-                  <motion.div
-                    className="hidden lg:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-blue-600/50 to-transparent z-0"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={viewportOptions}
-                    transition={{ delay: 0.3 + index * 0.2, duration: 0.6 }}
-                    style={{ transformOrigin: "left" }}
-                  />
-                )}
-
-                <motion.div
-                  className="relative z-10 glass-card p-8 rounded-2xl h-full flex flex-col items-center text-center group"
-                  whileHover={{ y: -10 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {/* Number Badge */}
-                  <motion.div
-                    className="absolute -top-5 -right-5 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(37,99,235,0.5)] border-4 border-slate-900"
-                    whileHover={{ scale: 1.1, rotate: 10 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {step.number}
-                  </motion.div>
-
-                  {/* Icon */}
-                  <div className="relative mb-6">
-                    <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <motion.div
-                      className="relative w-16 h-16 bg-slate-800 border border-slate-700 rounded-2xl flex items-center justify-center group-hover:border-blue-500/50 transition-colors"
-                      whileHover={{ rotate: [0, -5, 5, -5, 0] }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      <Icon className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />
-                    </motion.div>
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-xl font-bold text-white mb-3 tracking-wide">
-                    {step.title}
-                  </h3>
-                  <p className="text-slate-400 leading-relaxed text-sm">
-                    {step.description}
-                  </p>
-                </motion.div>
-              </motion.div>
-            );
-          })}
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              className="flex flex-col items-center text-center lg:items-start lg:text-left"
+              variants={fadeInUp}
+            >
+              <step.Anim />
+              <h3 className="text-lg font-heading font-bold text-slate-900 dark:text-white mb-3">
+                {step.title}
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
+                {step.description}
+              </p>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* CTA Section */}
+        {/* CTA */}
         <motion.div
-          className="mt-20 text-center relative z-10"
+          className="mt-20 pt-12 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
           variants={fadeInUp}
         >
-          <motion.div
-            className="inline-block glass-card rounded-3xl p-10 max-w-2xl relative overflow-hidden"
-            whileHover={{ y: -5 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 pointer-events-none"></div>
-            <h3 className="text-3xl font-bold text-white mb-4 relative z-10">
-              ¿Listo para empezar tu proyecto?
+          <div>
+            <h3 className="text-2xl font-heading font-bold text-slate-900 dark:text-white mb-2">
+              ¿Listo para empezar?
             </h3>
-            <p className="text-slate-400 mb-8 relative z-10 text-lg">
-              Agenda una consulta gratuita y descubre cómo podemos ayudarte
+            <p className="text-slate-500 dark:text-slate-400">
+              Agenda una consulta gratuita. Sin compromiso.
             </p>
-            <motion.button
-              onClick={() => {
-                const element = document.getElementById('contact');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="relative z-10 overflow-hidden group bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="relative z-10 flex items-center justify-center">Agendar consulta</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-            </motion.button>
-          </motion.div>
+          </div>
+          <button
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-emerald-500 text-white dark:text-slate-950 px-7 py-3.5 rounded-lg font-bold text-sm hover:bg-emerald-400 transition-colors flex-shrink-0"
+          >
+            Agendar consulta
+          </button>
         </motion.div>
       </div>
     </section>

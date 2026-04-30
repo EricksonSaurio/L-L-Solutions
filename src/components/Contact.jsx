@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, viewportOptions } from '../utils/animations';
+import { Mail, MapPin, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { SiWhatsapp } from 'react-icons/si';
+import { motion, AnimatePresence } from 'framer-motion';
+import { fadeInLeft, fadeInRight, viewportOptions } from '../utils/animations';
+
+const WEB3FORMS_KEY = '6d231cc0-29c6-4ca8-b906-f447107e35ca';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -9,12 +12,40 @@ function Contact() {
     email: '',
     message: ''
   });
+  const [status, setStatus] = useState('idle'); // idle | sending | success | error
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('¡Gracias por tu mensaje! Nos pondremos en contacto pronto.');
-    setFormData({ name: '', email: '', message: '' });
+    setStatus('sending');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Nuevo mensaje de ${formData.name} desde ETLC Systems`,
+          from_name: 'ETLC Systems Web',
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   const handleChange = (e) => {
@@ -24,94 +55,93 @@ function Contact() {
     });
   };
 
-  return (
-    <section id="contact" className="py-24 bg-slate-900 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOptions}
-          variants={fadeInUp}
-        >
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
-            Hablemos de tu <span className="text-gradient">proyecto</span>
-          </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            Estamos listos para convertir tu idea en realidad
-          </p>
-        </motion.div>
+  const isSending = status === 'sending';
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
+  return (
+    <section id="contact" className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left: Info */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInLeft}
-            className="glass-card p-10 rounded-3xl h-full flex flex-col justify-center"
+            className="flex flex-col justify-center"
           >
-            <h3 className="text-2xl font-bold text-white mb-8">
-              Información de contacto
-            </h3>
-            <motion.div
-              className="space-y-4"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOptions}
-            >
-              <motion.div className="flex items-center group/contact" variants={fadeInUp}>
-                <motion.div
-                  className="w-12 h-12 bg-slate-800/80 border border-slate-700 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 group-hover/contact:border-blue-500/50 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Mail className="w-5 h-5 text-blue-400 group-hover/contact:text-blue-300" />
-                </motion.div>
-                <div>
-                  <p className="font-semibold text-slate-400 text-sm mb-1">Email</p>
-                  <p className="text-white font-medium">contacto@etlc-systems.com</p>
+            <span className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-emerald-600 dark:text-emerald-400 mb-4">
+              <span className="w-8 h-px bg-emerald-600 dark:bg-emerald-400" />
+              Contacto
+            </span>
+            <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+              Hablemos de
+              <br />tu proyecto
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-md">
+              Cuéntanos qué necesitas. Te respondemos en menos de 24 horas con una evaluación honesta de cómo podemos ayudarte.
+            </p>
+
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 </div>
-              </motion.div>
-              <motion.div className="flex items-center group/contact" variants={fadeInUp}>
-                <motion.div
-                  className="w-12 h-12 bg-slate-800/80 border border-slate-700 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 group-hover/contact:border-blue-500/50 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Phone className="w-5 h-5 text-blue-400 group-hover/contact:text-blue-300" />
-                </motion.div>
                 <div>
-                  <p className="font-semibold text-slate-400 text-sm mb-1">Teléfono</p>
-                  <p className="text-white font-medium">+1 (555) 123-4567</p>
+                  <div className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">Email</div>
+                  <div className="text-slate-900 dark:text-white text-sm">systemsetlc@gmail.com</div>
                 </div>
-              </motion.div>
-              <motion.div className="flex items-center group/contact" variants={fadeInUp}>
-                <motion.div
-                  className="w-12 h-12 bg-slate-800/80 border border-slate-700 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 group-hover/contact:border-blue-500/50 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <MapPin className="w-5 h-5 text-blue-400 group-hover/contact:text-blue-300" />
-                </motion.div>
+              </div>
+              <a
+                href="https://wa.me/50240338333"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                  <SiWhatsapp className="w-4 h-4 text-[#25D366]" />
+                </div>
                 <div>
-                  <p className="font-semibold text-slate-400 text-sm mb-1">Ubicación</p>
-                  <p className="text-white font-medium">Ciudad, País</p>
+                  <div className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">WhatsApp · Línea 1</div>
+                  <div className="text-slate-900 dark:text-white text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">+502 4033 8333</div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </a>
+              <a
+                href="https://wa.me/50242541992"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                  <SiWhatsapp className="w-4 h-4 text-[#25D366]" />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">WhatsApp · Línea 2</div>
+                  <div className="text-slate-900 dark:text-white text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">+502 4254 1992</div>
+                </div>
+              </a>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">Ubicación</div>
+                  <div className="text-slate-900 dark:text-white text-sm">Guatemala, Guatemala</div>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
+          {/* Right: Form */}
           <motion.form
             onSubmit={handleSubmit}
-            className="glass-card p-10 rounded-3xl space-y-6"
+            className="space-y-5"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInRight}
           >
             <div>
-              <label htmlFor="name" className="block text-slate-300 font-semibold mb-2 ml-1">
+              <label htmlFor="name" className="block text-sm text-slate-600 dark:text-slate-400 mb-2 font-medium">
                 Nombre
               </label>
               <input
@@ -121,12 +151,12 @@ function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition-all outline-none"
-                placeholder="Tu nombre completo"
+                className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-slate-600 transition-colors outline-none"
+                placeholder="Tu nombre"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-slate-300 font-semibold mb-2 ml-1">
+              <label htmlFor="email" className="block text-sm text-slate-600 dark:text-slate-400 mb-2 font-medium">
                 Email
               </label>
               <input
@@ -136,13 +166,13 @@ function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition-all outline-none"
+                className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-slate-600 transition-colors outline-none"
                 placeholder="tu@email.com"
               />
             </div>
             <div>
-              <label htmlFor="message" className="block text-slate-300 font-semibold mb-2 ml-1">
-                Mensaje
+              <label htmlFor="message" className="block text-sm text-slate-600 dark:text-slate-400 mb-2 font-medium">
+                Cuéntanos sobre tu proyecto
               </label>
               <textarea
                 id="message"
@@ -150,20 +180,53 @@ function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                rows="4"
-                className="w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-500 transition-all outline-none resize-none"
-                placeholder="Cuéntanos sobre tu proyecto..."
+                rows="5"
+                className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-slate-600 transition-colors outline-none resize-none"
+                placeholder="¿Qué necesitas? ¿Cuál es el problema que quieres resolver?"
               ></textarea>
             </div>
-            <motion.button
+            <button
               type="submit"
-              className="w-full relative overflow-hidden group bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              disabled={isSending}
+              className="group w-full flex items-center justify-center gap-2 bg-emerald-500 text-white dark:text-slate-950 px-7 py-3.5 rounded-lg font-bold text-sm hover:bg-emerald-400 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              <span className="relative z-10 flex items-center justify-center">Enviar mensaje</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-            </motion.button>
+              {isSending ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  Enviar mensaje
+                  <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </>
+              )}
+            </button>
+
+            <AnimatePresence>
+              {status === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm"
+                >
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                  <span>¡Mensaje enviado! Te responderemos pronto.</span>
+                </motion.div>
+              )}
+              {status === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm"
+                >
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span>Hubo un error. Intenta de nuevo o escríbenos por WhatsApp.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.form>
         </div>
       </div>

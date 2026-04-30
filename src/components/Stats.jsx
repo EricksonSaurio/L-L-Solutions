@@ -36,7 +36,7 @@ function Stats() {
   ];
 
   return (
-    <section className="py-20 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-700 overflow-hidden">
+    <section className="py-20 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-y border-slate-200 dark:border-slate-700 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
@@ -50,9 +50,12 @@ function Stats() {
             return (
               <motion.div
                 key={index}
-                className="text-center group"
+                className="text-center group relative"
                 variants={fadeInUp}
               >
+                {index < stats.length - 1 && (
+                  <div className="hidden lg:block absolute right-0 top-1/4 h-1/2 w-px bg-slate-200 dark:bg-slate-700" />
+                )}
                 <motion.div
                   className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-xl mb-4 group-hover:bg-blue-600 transition"
                   whileHover={{ rotate: 360, scale: 1.1 }}
