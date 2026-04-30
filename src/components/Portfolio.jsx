@@ -11,10 +11,10 @@ const projects = [
     technologies: ["Django", "PostgreSQL", "AWS", "Python"],
     accent: "bg-emerald-500",
     images: [
-      '/Assets/RestaurantePro1.jpeg',
-      '/Assets/RestaurantePro2.jpeg',
-      '/Assets/RestaurantePro3.jpeg',
-      '/Assets/RestaurantePro4.jpeg',
+      '/assets/RestaurantePro1.jpeg',
+      '/assets/RestaurantePro2.jpeg',
+      '/assets/RestaurantePro3.jpeg',
+      '/assets/RestaurantePro4.jpeg',
     ],
   },
 ];

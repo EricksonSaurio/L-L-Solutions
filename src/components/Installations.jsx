@@ -9,10 +9,10 @@ const installations = [
     system: "Restaurante Pro",
     date: "2026",
     images: [
-      '/Assets/Instalacion/4.jpeg',
-      '/Assets/Instalacion/3.jpeg',
-      '/Assets/Instalacion/2.jpeg',
-      '/Assets/Instalacion/1.jpeg',
+      '/assets/instalacion/4.jpeg',
+      '/assets/instalacion/3.jpeg',
+      '/assets/instalacion/2.jpeg',
+      '/assets/instalacion/1.jpeg',
     ],
   },
 ];
